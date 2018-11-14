@@ -1,0 +1,13 @@
+@startuml
+participant user
+participant "plantuml-proxy" 
+participant "plantuml-server"
+
+user -> "plantuml-proxy": POST /svg [:uml-content] 
+activate "plantuml-proxy" 
+"plantuml-proxy" -> "plantuml-server": GET /svg/{:encoded-content} 
+"plantuml-proxy" <- "plantuml-server": return SVG data 
+user <- "plantuml-proxy": return SVG data 
+deactivate "plantuml-proxy" 
+
+@enduml
