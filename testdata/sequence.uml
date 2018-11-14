@@ -1,5 +1,5 @@
 @startuml
-participant user
+actor user
 participant "plantuml-proxy" 
 participant "plantuml-server"
 
