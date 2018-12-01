@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plantuml-proxy
+  labels:
+    app: plantuml-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: plantuml-proxy
+  template:
+    metadata:
+      labels:
+        app: plantuml-proxy
+    spec:
+      containers:
+      - name: plantuml-proxy
+        image: quay.io/cgilling/plantuml-proxy:master
+        env:
+        - name: PLANTUML_PROXY_PLANTUML_URL
+          value: "http://localhost:8081"
+        ports:
+        - containerPort: 8080
+      - name: plantuml-server
+        image: plantuml/plantuml-server:jetty
+        env:
+        - name: JAVA_OPTIONS
+          value: "-Djetty.port=8081"
+        ports:
+        - containerPort: 8081
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: plantuml-proxy
+spec:
+  selector:
+    app: plantuml-proxy
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
