@@ -8,4 +8,4 @@ before_install:
 install:
   - go get -t ./...
 script:
-  - $GOPATH/bin/goveralls -service=travis-ci -flags="-plantuml-jar=/tmp/plantuml.jar"
+  - $GOPATH/bin/goveralls -v -service=travis-ci -flags="-plantuml-jar=/tmp/plantuml.jar"
