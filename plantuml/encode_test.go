@@ -2,14 +2,14 @@ package plantuml
 
 import (
 	"bytes"
-	"flag"
 	"io/ioutil"
+	"os"
 	"os/exec"
 	"reflect"
 	"testing"
 )
 
-var plantUMLJarPath = flag.String("plantuml-jar", "", "path to plantuml.jar to enable fuller testing")
+var plantUMLJarPath = os.Getenv("PLANTUML_JAR_PATH")
 
 func TestEncode(t *testing.T) {
 	// NOTE: this was confirmed to be a valid encoding by loading it using http://www.plantuml.com/plantuml/uml/{encoded_string}
@@ -24,7 +24,7 @@ func TestEncode(t *testing.T) {
 }
 
 func TestEncodeAgainstPlantUMLJar(t *testing.T) {
-	if *plantUMLJarPath == "" {
+	if plantUMLJarPath == "" {
 		t.SkipNow()
 	}
 	b, err := ioutil.ReadFile("../testdata/sequence.uml")
@@ -34,7 +34,7 @@ func TestEncodeAgainstPlantUMLJar(t *testing.T) {
 	encodedText := Encode(b)
 
 	out := &bytes.Buffer{}
-	cmd := exec.Command("java", "-jar", *plantUMLJarPath, "-decodeurl", encodedText)
+	cmd := exec.Command("java", "-jar", plantUMLJarPath, "-decodeurl", encodedText)
 	cmd.Stdout = out
 	err = cmd.Run()
 	if err != nil {
