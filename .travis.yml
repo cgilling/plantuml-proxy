@@ -1,11 +1,12 @@
 language: go
-
+sudo: false
 env:
-  - PATH=$PATH:$GOPATH/bin
+  global:
+    - PLANTUML_JAR_PATH=/tmp/plantuml.jar
 before_install:
-  - go get github.com/mattn/goveralls
+  - go get -u github.com/mattn/goveralls
   - curl -L 'http://sourceforge.net/projects/plantuml/files/plantuml.jar/download' > /tmp/plantuml.jar
 install:
   - go get -t ./...
 script:
-  - $GOPATH/bin/goveralls -service=travis-ci -plantuml-jar=/tmp/plantuml.jar
+  - $GOPATH/bin/goveralls -v -service=travis-ci

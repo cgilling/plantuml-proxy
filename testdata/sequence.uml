@@ -1,13 +1,12 @@
 @startuml
-actor user
-participant "plantuml-proxy" 
-participant "plantuml-server"
+actor "user\n试试用UTF-8" as user
+participant "plantuml-proxy" as proxy
+participant "plantuml-server" as server
 
-user -> "plantuml-proxy": POST /svg [:uml-content] 
-activate "plantuml-proxy" 
-"plantuml-proxy" -> "plantuml-server": GET /svg/{:encoded-content} 
-"plantuml-proxy" <- "plantuml-server": return SVG data 
-user <- "plantuml-proxy": return SVG data 
-deactivate "plantuml-proxy" 
-
+user -> proxy: POST /svg [:uml-content]
+activate proxy
+proxy -> server: GET /svg/{:encoded-content}
+proxy <- server: return SVG data
+user <- proxy: return SVG data
+deactivate proxy
 @enduml
