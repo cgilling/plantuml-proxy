@@ -1,8 +1,8 @@
 language: go
 sudo: false
 env:
-  - PATH=$PATH:$GOPATH/bin
-  - PLANTUML_JAR_PATH=/tmp/plantuml.jar
+  global:
+    - PLANTUML_JAR_PATH=/tmp/plantuml.jar
 before_install:
   - go get -u github.com/mattn/goveralls
   - curl -L 'http://sourceforge.net/projects/plantuml/files/plantuml.jar/download' > /tmp/plantuml.jar
